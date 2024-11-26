@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
@@ -49,6 +50,10 @@ import com.example.fitnesstracker.ui.theme.Gray
 import com.example.fitnesstracker.ui.theme.Primary
 import com.example.fitnesstracker.ui.theme.PurpleGrey40
 import com.example.fitnesstracker.ui.theme.White
+import com.example.fitnesstracker.ui.widgets.BigButton
+import com.example.fitnesstracker.ui.widgets.LoginTextField
+import com.example.fitnesstracker.ui.widgets.PasswordTextField
+import com.example.fitnesstracker.ui.widgets.TopAppBarWidget
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,33 +61,7 @@ fun RegistrationScreen(navController: NavController) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.registration_screen_title),
-                        fontWeight = FontWeight(600),
-                        textAlign = TextAlign.Start,
-                        fontSize = 20.sp
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = { navController.popBackStack() },
-                        colors = IconButtonColors(
-                            containerColor = White,
-                            contentColor = Primary,
-                            disabledContainerColor = Gray,
-                            disabledContentColor = Gray
-                        )
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Previous Page"
-                        )
-                    }
-                }
-
-            )
+            TopAppBarWidget(navController)
         }
     ) { innerPadding ->
         Column(modifier = Modifier
@@ -175,38 +154,43 @@ fun DescriptionString() {
             fontSize = 12.sp,
             lineHeight = 18.sp,
             fontWeight = FontWeight(400),
-            text = buildAnnotatedString {
-
-                append(stringResource(R.string.registration_screen_description_1))
-                withLink(
-                    LinkAnnotation.Url(
-                        "https://developer.android.com/jetpack/compose",
-                        TextLinkStyles(
-                            style = SpanStyle(color = Primary)
-                        )
-                    )
-                )
-                {
-                    append(stringResource(R.string.registration_screen_description_2))
-                }
-                append(stringResource(R.string.registration_screen_description_3))
-                withLink(
-                    LinkAnnotation.Url(
-                        "https://developer.android.com/jetpack/compose",
-                        TextLinkStyles(
-                            style = SpanStyle(color = Primary)
-                        )
-                    )
-                )
-                {
-                    append(stringResource(R.string.registration_screen_description_4))
-                }
-            },
+            text = getDescriptionString(),
             style = TextStyle.Default.copy(
                 lineBreak = LineBreak.Paragraph.copy(
                 strategy = LineBreak.Strategy.Balanced)
             ),
             modifier = Modifier.fillMaxWidth()
         )
+    }
+}
+
+@Composable
+fun getDescriptionString(): AnnotatedString {
+    return buildAnnotatedString {
+
+        append(stringResource(R.string.registration_screen_description_1))
+        withLink(
+            LinkAnnotation.Url(
+                "https://developer.android.com/jetpack/compose",
+                TextLinkStyles(
+                    style = SpanStyle(color = Primary)
+                )
+            )
+        )
+        {
+            append(stringResource(R.string.registration_screen_description_2))
+        }
+        append(stringResource(R.string.registration_screen_description_3))
+        withLink(
+            LinkAnnotation.Url(
+                "https://developer.android.com/jetpack/compose",
+                TextLinkStyles(
+                    style = SpanStyle(color = Primary)
+                )
+            )
+        )
+        {
+            append(stringResource(R.string.registration_screen_description_4))
+        }
     }
 }

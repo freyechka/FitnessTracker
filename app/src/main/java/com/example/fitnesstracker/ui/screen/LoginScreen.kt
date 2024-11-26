@@ -54,6 +54,10 @@ import com.example.fitnesstracker.ui.theme.Gray
 import com.example.fitnesstracker.ui.theme.Primary
 import com.example.fitnesstracker.ui.theme.PurpleGrey40
 import com.example.fitnesstracker.ui.theme.White
+import com.example.fitnesstracker.ui.widgets.BigButton
+import com.example.fitnesstracker.ui.widgets.LoginTextField
+import com.example.fitnesstracker.ui.widgets.PasswordTextField
+import com.example.fitnesstracker.ui.widgets.TopAppBarWidget
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,33 +66,7 @@ fun LoginScreen(navController: NavController
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.login_screen_title),
-                        fontWeight = FontWeight(600),
-                        textAlign = TextAlign.Start,
-                        fontSize = 20.sp
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = { navController.popBackStack() },
-                        colors = IconButtonColors(
-                            containerColor = White,
-                            contentColor = Primary,
-                            disabledContainerColor = Gray,
-                            disabledContentColor = Gray
-                        )
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Previous Page"
-                        )
-                    }
-                }
-
-            )
+            TopAppBarWidget(navController)
         }
     ) { innerPadding ->
         Column(modifier = Modifier
@@ -132,79 +110,3 @@ fun PreviewLoginScreen() {
     }
 }
 
-@Composable
-fun LoginTextField(text: String) {
-    val login = remember { mutableStateOf("") }
-    OutlinedTextField(
-        login.value,
-        {login.value = it},
-        modifier = Modifier
-            .padding(horizontal = 15.dp)
-            .fillMaxWidth(),
-        label = { Text(
-            text = text,
-            fontWeight = FontWeight(400),
-            fontSize = 16.sp,
-            color = Gray) }
-    )
-}
-
-@Composable
-fun PasswordTextField(text: String) {
-    val password = remember { mutableStateOf("") }
-    var showPassword by remember { mutableStateOf(false) }
-    OutlinedTextField(
-        value = password.value,
-        onValueChange = { password.value = it },
-        modifier = Modifier
-            .padding(horizontal = 15.dp)
-            .fillMaxWidth(),
-        label = {
-            Text(
-                text = text,
-                fontWeight = FontWeight(400),
-                fontSize = 16.sp,
-                color = Gray
-            )
-        },
-        trailingIcon = {
-            IconButton(onClick = { showPassword = !showPassword }) {
-                Icon(
-                    imageVector = if (showPassword) {
-                        Icons.Filled.VisibilityOff
-                    } else {
-                        Icons.Filled.Visibility
-                    },
-                    contentDescription = if (showPassword) "Hide password" else "Show password"
-                )
-            }
-        },
-        visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-    )
-}
-
-@Composable
-fun BigButton(text: String) {
-    Button(
-        onClick = { },
-        modifier = Modifier
-            .padding(horizontal = 15.dp)
-            .fillMaxWidth(),
-        shape = ShapeDefaults.ExtraSmall,
-        colors = ButtonColors(
-            containerColor = Primary,
-            contentColor = White,
-            disabledContainerColor = Gray,
-            disabledContentColor = Gray
-        )
-    ) {
-        Text(
-            text = text,
-            fontSize = 16.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight(700),
-            color = White
-        )
-    }
-}
