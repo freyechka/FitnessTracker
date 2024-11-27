@@ -23,13 +23,17 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.fitnesstracker.ui.theme.Gray
+import com.example.fitnesstracker.viewmodel.LoginViewModel
 
 @Composable
-fun LoginTextField(text: String) {
-    val login = remember { mutableStateOf("") }
+fun LoginTextField(
+    text: String,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
     OutlinedTextField(
-        value = login.value,
-        onValueChange = {login.value = it},
+        value = value,
+        onValueChange = { onValueChange(it) },
         modifier = Modifier
             .padding(horizontal = 15.dp)
             .fillMaxWidth(),
@@ -43,12 +47,15 @@ fun LoginTextField(text: String) {
 }
 
 @Composable
-fun PasswordTextField(text: String) {
-    val password = remember { mutableStateOf("") }
+fun PasswordTextField(
+    text: String,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
     var showPassword by remember { mutableStateOf(false) }
     OutlinedTextField(
-        value = password.value,
-        onValueChange = { password.value = it },
+        value = value,
+        onValueChange = { onValueChange(it) },
         modifier = Modifier
             .padding(horizontal = 15.dp)
             .fillMaxWidth(),

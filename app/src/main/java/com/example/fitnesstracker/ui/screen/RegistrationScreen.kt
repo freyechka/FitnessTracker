@@ -54,10 +54,11 @@ import com.example.fitnesstracker.ui.widgets.BigButton
 import com.example.fitnesstracker.ui.widgets.LoginTextField
 import com.example.fitnesstracker.ui.widgets.PasswordTextField
 import com.example.fitnesstracker.ui.widgets.TopAppBarWidget
+import com.example.fitnesstracker.viewmodel.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistrationScreen(navController: NavController) {
+fun RegistrationScreen(navController: NavController, loginViewModel: LoginViewModel) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -74,13 +75,29 @@ fun RegistrationScreen(navController: NavController) {
                         top = 20.dp
                     )
             ) {
-                LoginTextField(stringResource(R.string.login_text_field_title))
+                LoginTextField(
+                    stringResource(R.string.login_text_field_title),
+                    value = loginViewModel.login,
+                    onValueChange = { loginViewModel.onLoginChange(it) },
+                )
                 Spacer(modifier = Modifier.height(5.dp))
-                LoginTextField(stringResource(R.string.name_text_field_title))
+                LoginTextField(
+                    stringResource(R.string.name_text_field_title),
+                    value = loginViewModel.name,
+                    onValueChange = { loginViewModel.onNameChange(it) },
+                )
                 Spacer(modifier = Modifier.height(5.dp))
-                PasswordTextField(stringResource(R.string.password_text_field_title))
+                PasswordTextField(
+                    stringResource(R.string.password_text_field_title),
+                    value = loginViewModel.password,
+                    onValueChange = { loginViewModel.onPasswordChange(it) }
+                )
                 Spacer(modifier = Modifier.height(5.dp))
-                PasswordTextField(stringResource(R.string.repassword_text_field_title))
+                PasswordTextField(
+                    stringResource(R.string.repassword_text_field_title),
+                    value = loginViewModel.repassword,
+                    onValueChange = { loginViewModel.onRepasswordChange(it) }
+                )
                 Spacer(modifier = Modifier.height(25.dp))
                 SexRadioButton()
                 Spacer(modifier = Modifier.height(25.dp))
@@ -99,13 +116,14 @@ fun PreviewRegistrationScreen() {
         Surface(modifier = Modifier.fillMaxSize()) {
             RegistrationScreen(
                 navController = rememberNavController(),
+                loginViewModel = LoginViewModel()
             )
         }
     }
 }
 
 @Composable
-fun SexRadioButton() {
+private fun SexRadioButton() {
     val sexes = listOf(stringResource(R.string.male_sex_option), stringResource(R.string.female_sex_option), stringResource(R.string.other_sex_option))
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(sexes[0])}
     Column(
@@ -145,7 +163,7 @@ fun SexRadioButton() {
 }
 
 @Composable
-fun DescriptionString() {
+private fun DescriptionString() {
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()
             .padding(horizontal = 15.dp)) {
@@ -165,7 +183,7 @@ fun DescriptionString() {
 }
 
 @Composable
-fun getDescriptionString(): AnnotatedString {
+private fun getDescriptionString(): AnnotatedString {
     return buildAnnotatedString {
 
         append(stringResource(R.string.registration_screen_description_1))

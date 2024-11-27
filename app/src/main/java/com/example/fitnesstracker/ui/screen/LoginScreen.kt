@@ -58,10 +58,11 @@ import com.example.fitnesstracker.ui.widgets.BigButton
 import com.example.fitnesstracker.ui.widgets.LoginTextField
 import com.example.fitnesstracker.ui.widgets.PasswordTextField
 import com.example.fitnesstracker.ui.widgets.TopAppBarWidget
+import com.example.fitnesstracker.viewmodel.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavController
+fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -87,9 +88,17 @@ fun LoginScreen(navController: NavController
                     contentDescription = "Main picture",
                     contentScale = ContentScale.Fit
                 )
-                LoginTextField(stringResource(R.string.login_text_field_title))
+                LoginTextField(
+                    stringResource(R.string.login_text_field_title),
+                    value = loginViewModel.login,
+                    onValueChange = { loginViewModel.onLoginChange(it) },
+                )
                 Spacer(modifier = Modifier.height(5.dp))
-                PasswordTextField(stringResource(R.string.password_text_field_title))
+                PasswordTextField(
+                    stringResource(R.string.password_text_field_title),
+                    value = loginViewModel.password,
+                    onValueChange = { loginViewModel.onPasswordChange(it) },
+                )
                 Spacer(modifier = Modifier.height(30.dp))
                 BigButton(stringResource(R.string.login_button_text))
             }
@@ -104,7 +113,8 @@ fun PreviewLoginScreen() {
     FitnessTrackerTheme() {
         Surface(modifier = Modifier.fillMaxSize()) {
             LoginScreen(
-                navController = rememberNavController()
+                navController = rememberNavController(),
+                loginViewModel = LoginViewModel()
             )
         }
     }

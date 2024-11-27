@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fitnesstracker.ui.screen.LoginScreen
 import com.example.fitnesstracker.ui.screen.RegistrationScreen
 import com.example.fitnesstracker.ui.screen.WelcomeScreen
+import com.example.fitnesstracker.viewmodel.LoginViewModel
 
 sealed class Screen(val route: String) {
     data object Welcome : Screen("welcome")
@@ -22,10 +23,10 @@ fun NavGraph() {
             WelcomeScreen(navController)
         }
         composable(Screen.Registration.route) {
-            RegistrationScreen(navController)
+            RegistrationScreen(navController, LoginViewModel())
         }
         composable(Screen.Login.route) {
-            LoginScreen(navController)
+            LoginScreen(navController, LoginViewModel())
         }
     }
 }
