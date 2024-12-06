@@ -62,7 +62,11 @@ fun RegistrationScreen(navController: NavController, loginViewModel: LoginViewMo
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBarWidget(navController)
+            TopAppBarWidget(
+                navController = navController,
+                title = stringResource(R.string.registration_screen_title),
+                actions = {}
+            )
         }
     ) { innerPadding ->
         Column(modifier = Modifier
@@ -101,7 +105,7 @@ fun RegistrationScreen(navController: NavController, loginViewModel: LoginViewMo
                 Spacer(modifier = Modifier.height(25.dp))
                 SexRadioButton()
                 Spacer(modifier = Modifier.height(25.dp))
-                BigButton(stringResource(R.string.registation_button_text))
+                BigButton(stringResource(R.string.registation_button_text), {})
                 Spacer(modifier = Modifier.height(25.dp))
                 DescriptionString()
             }

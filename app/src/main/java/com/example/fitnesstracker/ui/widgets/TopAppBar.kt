@@ -1,5 +1,6 @@
 package com.example.fitnesstracker.ui.widgets
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,11 +22,11 @@ import com.example.fitnesstracker.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarWidget(navController: NavController) {
+fun TopAppBarWidget(navController: NavController, title: String, actions: @Composable RowScope.() -> Unit) {
     TopAppBar(
         title = {
             Text(
-                text = stringResource(R.string.login_screen_title),
+                text = title,
                 fontWeight = FontWeight(600),
                 textAlign = TextAlign.Start,
                 fontSize = 20.sp
@@ -46,7 +47,9 @@ fun TopAppBarWidget(navController: NavController) {
                     contentDescription = "Previous Page"
                 )
             }
-        }
+        },
+        actions = actions
+
 
     )
 }
