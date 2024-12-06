@@ -17,9 +17,9 @@ import com.example.fitnesstracker.ui.theme.Primary
 import com.example.fitnesstracker.ui.theme.White
 
 @Composable
-fun BigButton(text: String) {
+fun BigButton(text: String, onClick: () -> Unit) {
     Button(
-        onClick = { },
+        onClick = onClick,
         modifier = Modifier
             .padding(horizontal = 15.dp)
             .fillMaxWidth(),
