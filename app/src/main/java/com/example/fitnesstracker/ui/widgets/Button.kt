@@ -2,6 +2,7 @@ package com.example.fitnesstracker.ui.widgets
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ShapeDefaults
@@ -22,7 +23,8 @@ fun BigButton(text: String, onClick: () -> Unit) {
         onClick = onClick,
         modifier = Modifier
             .padding(horizontal = 15.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .size(height = 48.dp, width = 379.dp),
         shape = ShapeDefaults.ExtraSmall,
         colors = ButtonColors(
             containerColor = Primary,
