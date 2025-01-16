@@ -10,12 +10,10 @@ import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.fitnesstracker.R
 import com.example.fitnesstracker.ui.theme.Gray
 import com.example.fitnesstracker.ui.theme.Primary
 import com.example.fitnesstracker.ui.theme.White

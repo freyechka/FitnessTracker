@@ -3,13 +3,15 @@ package com.example.fitnesstracker.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
 import com.example.fitnesstracker.model.Activity
 import com.example.fitnesstracker.model.ActivityListItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class ActivitiesViewModel {
+class ActivitiesViewModel : ViewModel() {
     var commentary by mutableStateOf("")
+    var selected by  mutableStateOf(false)
     private val _communityActivities = MutableStateFlow<List<ActivityListItem>>(emptyList())
     private val _myActivities = MutableStateFlow<List<ActivityListItem>>(emptyList())
 
