@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnesstracker.model.Activity
@@ -35,6 +36,7 @@ import com.example.fitnesstracker.ui.theme.Primary
 import com.example.fitnesstracker.ui.theme.White
 import com.example.fitnesstracker.ui.widgets.TopAppBarWidget
 import com.example.fitnesstracker.viewmodel.ActivitiesViewModel
+import java.time.LocalDate
 
 @Composable
 fun MyActivityDetailsScreen(activity: Activity, navController: NavController, activitiesViewModel: ActivitiesViewModel) {
@@ -50,13 +52,13 @@ fun MyActivityDetailsScreen(activity: Activity, navController: NavController, ac
         Column(modifier = Modifier.padding(innerPadding)
             .padding(20.dp)) {
             Text(
-                text = activity.distance.toString() + " км",
+                text = calculateDistance(activity.startLatitude, activity.endLatitude, activity.startLongitude, activity.startLongitude).toString() + " км",
                 fontWeight = FontWeight(700),
                 fontSize = 24.sp
             )
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                text = activity.date,
+                text = activity.date.toString(),
                 fontWeight = FontWeight(400),
                 fontSize = 16.sp,
                 color = Color.Gray
@@ -125,17 +127,20 @@ fun PreviewMyActivityDetailsScreen() {
             MyActivityDetailsScreen(
                 activity = Activity(
                     id = 1,
-                    distance = 14.32,
                     duration = "5 часов",
                     start = "14:39",
                     end = "19:39",
                     title = "Серфинг",
-                    date = "03.12.2024",
+                    date = LocalDate.parse("03.12.2024"),
                     isMine = true,
                     author = "@boberkurwa",
+                    startLatitude = 1.1,
+                    endLatitude = 2.2,
+                    startLongitude = 3.3,
+                    endLongitude = 4.4
                 ),
                 navController = rememberNavController(),
-                activitiesViewModel = ActivitiesViewModel()
+                activitiesViewModel = viewModel()
             )
         }
     }

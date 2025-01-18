@@ -13,11 +13,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.fitnesstracker.ui.theme.FitnessTrackerTheme
 import com.example.fitnesstracker.ui.theme.Gray
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun DateHeader(date: String) {
+fun DateHeader(date: LocalDate) {
     Text(
-        text = date,
+        text = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
@@ -32,7 +34,7 @@ fun DateHeader(date: String) {
 fun PreviewDateHeader() {
     FitnessTrackerTheme() {
         Surface(modifier = Modifier.fillMaxSize()) {
-            DateHeader("Вчера")
+            DateHeader(LocalDate.now())
         }
     }
 }

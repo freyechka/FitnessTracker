@@ -13,13 +13,16 @@ import com.example.fitnesstracker.ui.widgets.ActivityItem
 import com.example.fitnesstracker.ui.widgets.DateHeader
 import com.example.fitnesstracker.ui.widgets.PlaceholderWidget
 import com.example.fitnesstracker.viewmodel.ActivitiesViewModel
+import com.example.fitnesstracker.viewmodel.TabsViewModel
+
 
 @Composable
 fun CommunityActivityScreen(
     activitiesViewModel: ActivitiesViewModel,
-    onActivityClick: (Activity) -> Unit
+    onActivityClick: (Activity) -> Unit,
+    tabsViewModel: TabsViewModel
 ) {
-    val activities by activitiesViewModel.communityActivities.collectAsState()
+    val activities by activitiesViewModel.listActivities.collectAsState()
     if (activities.isEmpty()) {
         PlaceholderWidget()
     }
@@ -28,7 +31,7 @@ fun CommunityActivityScreen(
             items(activities) { item ->
                 when (item) {
                     is ActivityListItem.DataHeader -> DateHeader(item.date)
-                    is ActivityListItem.ActivityItem -> ActivityItem(item.activity, onItemClick = onActivityClick)
+                    is ActivityListItem.ActivityItem -> ActivityItem(item.activity, onActivityClick, tabsViewModel)
                 }
             }
         }
