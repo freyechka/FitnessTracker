@@ -53,14 +53,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.model.Activity
-import com.example.fitnesstracker.model.Converter
 import com.example.fitnesstracker.ui.theme.FitnessTrackerTheme
 import com.example.fitnesstracker.ui.theme.Gray
 import com.example.fitnesstracker.ui.theme.Primary
 import com.example.fitnesstracker.ui.theme.White
 import com.example.fitnesstracker.ui.widgets.BigButton
 import com.example.fitnesstracker.viewmodel.ActivitiesViewModel
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -76,11 +77,9 @@ fun NewActivityScreen(navController: NavController, activitiesViewModel: Activit
     var start by remember { mutableStateOf(0) }
     var activity = Activity(
         id = 0,
-        duration = "end-start",
-        start = "after",
-        end = "after",
+        start = 10000000000,
+        end = 99999999000,
         title = "choose",
-        date = LocalDate.now(),
         isMine = true,
         author = "get_author",
         startLatitude = 1.1,
@@ -246,22 +245,19 @@ private fun BeforeStart(activitiesViewModel: ActivitiesViewModel) {
 }
 
 private fun addActivity(type: Boolean, vm:ActivitiesViewModel) {
-    val start = Random.nextInt(100, 500)
-    val end = Random.nextInt(1000, 2000)
-    val duration = end-start
     val day = Random.nextInt(10, 28)
     val month = Random.nextInt(1, 9)
+    val start = getMillis(day, month, 2024)
+    val end = Random.nextLong(start, start+30000000)
     val startLat = Random.nextDouble(-90.0, 90.0)
     val endLat = Random.nextDouble(-90.0, 90.0)
     val startLon = Random.nextDouble(-180.0, 180.0)
     val endLon = Random.nextDouble(-180.0, 180.0)
     val activity = Activity(
         id = 0,
-        duration = duration.toString(),
-        start = start.toString(),
-        end = end.toString(),
+        start = start,
+        end = end,
         title = vm.titles[type.toInt()],
-        date = LocalDate.parse("$day.0$month.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")),
         isMine = true,
         author = "@milana",
         startLatitude = startLat,
@@ -277,6 +273,23 @@ fun Boolean.toInt(): Int = if (this) 1 else 0
 fun roundToDecimals(value: Double, decimals: Int): Double {
     val factor = 10.0.pow(decimals)
     return round(value*factor) / factor
+}
+
+fun getMillis(day: Int, month: Int, year: Int): Long {
+    return LocalDate.of(year, month, day)
+        .atStartOfDay(ZoneId.systemDefault())
+        .toInstant()
+        .toEpochMilli()
+}
+
+fun calculateDuration(timestamp: Long): String {
+    val formatter = DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.systemDefault())
+    return formatter.format(Instant.ofEpochMilli(timestamp))
+}
+
+fun getDate(timestamp: Long): String {
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy").withZone(ZoneId.systemDefault())
+    return formatter.format(Instant.ofEpochMilli(timestamp))
 }
 
 @Composable
@@ -304,7 +317,7 @@ private fun Started(activity: Activity) {
                     fontWeight = FontWeight(400)
                 )
                 Text(
-                    text = activity.duration,
+                    text = calculateDuration(activity.end - activity.start),
                     fontSize = 24.sp,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight(400)

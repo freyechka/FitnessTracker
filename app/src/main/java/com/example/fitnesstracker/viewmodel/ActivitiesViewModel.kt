@@ -6,12 +6,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnesstracker.model.Activity
+import com.example.fitnesstracker.model.ActivityListItem
 import com.example.fitnesstracker.model.ActivityRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import com.example.fitnesstracker.model.ActivityListItem
 import kotlinx.coroutines.launch
 
 class ActivitiesViewModel(private val repository: ActivityRepository) : ViewModel() {

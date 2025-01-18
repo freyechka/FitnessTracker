@@ -20,7 +20,6 @@ import com.example.fitnesstracker.viewmodel.ActivitiesViewModel
 
 class MainActivity : ComponentActivity() {
     private val db by lazy {
-        applicationContext.deleteDatabase("fitness_tracker_db")
         Room.databaseBuilder(
             applicationContext,
             ActivityDatabase::class.java,

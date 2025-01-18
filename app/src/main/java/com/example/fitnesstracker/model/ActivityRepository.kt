@@ -2,7 +2,8 @@ package com.example.fitnesstracker.model
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.time.LocalDate
+import java.time.Instant
+import java.time.ZoneId
 
 class ActivityRepository(private val activityDao: ActivityDao) {
 
@@ -10,8 +11,8 @@ class ActivityRepository(private val activityDao: ActivityDao) {
         return activityDao.getMyActivities()
             .map { items ->
                 mutableListOf<ActivityListItem>().apply {
-                    val sortedItems = items.sortedByDescending { it.date }
-                    sortedItems.groupBy { it.date }.forEach { (date, groupItems) ->
+                    val sortedItems = items.sortedByDescending { it.end }
+                    sortedItems.groupBy { Instant.ofEpochMilli(it.end).atZone(ZoneId.systemDefault()).toLocalDate() }.forEach { (date, groupItems) ->
                         add(ActivityListItem.DataHeader(date))
                         groupItems.forEach { item ->
                             add(ActivityListItem.ActivityItem(item))
@@ -24,8 +25,8 @@ class ActivityRepository(private val activityDao: ActivityDao) {
     fun getActivities(): Flow<List<ActivityListItem>> {
         return activityDao.getActivities().map { items ->
             mutableListOf<ActivityListItem>().apply {
-                val sortedItems = items.sortedByDescending { it.date }
-                sortedItems.groupBy { it.date }.forEach { (date, groupItems) ->
+                val sortedItems = items.sortedByDescending { it.end }
+                sortedItems.groupBy { Instant.ofEpochMilli(it.end).atZone(ZoneId.systemDefault()).toLocalDate() }.forEach { (date, groupItems) ->
                     add(ActivityListItem.DataHeader(date))
                     groupItems.forEach { item ->
                         add(ActivityListItem.ActivityItem(item))

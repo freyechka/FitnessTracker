@@ -18,8 +18,6 @@ import com.example.fitnesstracker.ui.screen.RegistrationScreen
 import com.example.fitnesstracker.ui.screen.WelcomeScreen
 import com.example.fitnesstracker.viewmodel.ActivitiesViewModel
 
-import kotlinx.coroutines.flow.firstOrNull
-
 sealed class Screen(val route: String) {
     data object Welcome : Screen("welcome")
     data object Registration : Screen("registration")

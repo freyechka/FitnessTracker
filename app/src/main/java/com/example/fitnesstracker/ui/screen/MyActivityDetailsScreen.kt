@@ -36,7 +36,6 @@ import com.example.fitnesstracker.ui.theme.Primary
 import com.example.fitnesstracker.ui.theme.White
 import com.example.fitnesstracker.ui.widgets.TopAppBarWidget
 import com.example.fitnesstracker.viewmodel.ActivitiesViewModel
-import java.time.LocalDate
 
 @Composable
 fun MyActivityDetailsScreen(activity: Activity, navController: NavController, activitiesViewModel: ActivitiesViewModel) {
@@ -58,14 +57,14 @@ fun MyActivityDetailsScreen(activity: Activity, navController: NavController, ac
             )
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                text = activity.date.toString(),
+                text = getDate(activity.end),
                 fontWeight = FontWeight(400),
                 fontSize = 16.sp,
                 color = Color.Gray
             )
             Spacer(modifier = Modifier.height(15.dp))
             Text(
-                text = activity.duration,
+                text = calculateDuration(activity.end - activity.start),
                 fontWeight = FontWeight(700),
                 fontSize = 24.sp
             )
@@ -79,7 +78,7 @@ fun MyActivityDetailsScreen(activity: Activity, navController: NavController, ac
                     fontSize = 16.sp
                 )
                 Text(
-                    text = activity.start,
+                    text = calculateDuration(activity.start),
                     fontWeight = FontWeight(400),
                     fontSize = 16.sp,
                     color = Color.Gray
@@ -96,7 +95,7 @@ fun MyActivityDetailsScreen(activity: Activity, navController: NavController, ac
                     fontSize = 16.sp
                 )
                 Text(
-                    text = activity.end,
+                    text = calculateDuration(activity.end),
                     fontWeight = FontWeight(400),
                     fontSize = 16.sp,
                     color = Color.Gray
@@ -126,14 +125,12 @@ fun PreviewMyActivityDetailsScreen() {
         Surface(modifier = Modifier.fillMaxSize()) {
             MyActivityDetailsScreen(
                 activity = Activity(
-                    id = 1,
-                    duration = "5 часов",
-                    start = "14:39",
-                    end = "19:39",
-                    title = "Серфинг",
-                    date = LocalDate.parse("03.12.2024"),
+                    id = 0,
+                    start = 10000000000,
+                    end = 99999999000,
+                    title = "choose",
                     isMine = true,
-                    author = "@boberkurwa",
+                    author = "get_author",
                     startLatitude = 1.1,
                     endLatitude = 2.2,
                     startLongitude = 3.3,
