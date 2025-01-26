@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnesstracker.navigation.Screen
@@ -28,7 +29,7 @@ import com.example.fitnesstracker.viewmodel.ActivitiesViewModel
 import com.example.fitnesstracker.viewmodel.TabsViewModel
 
 @Composable
-fun ActivityScreen(navController: NavController, tabsViewModel: TabsViewModel) {
+fun ActivityScreen(navController: NavController, tabsViewModel: TabsViewModel, activitiesViewModel: ActivitiesViewModel) {
 
     Scaffold(
         floatingActionButton = {
@@ -62,13 +63,15 @@ fun ActivityScreen(navController: NavController, tabsViewModel: TabsViewModel) {
             }
             when (tabsViewModel.tabIndex) {
                 0 -> MyActivityScreen(
-                    activitiesViewModel = ActivitiesViewModel(),
-                    onActivityClick = { activity -> navController.navigate("myDetails/${activity.id}") }
+                    activitiesViewModel = activitiesViewModel,
+                    onActivityClick = { activity -> navController.navigate("myDetails/${activity.id}") },
+                    tabsViewModel
                 )
 
                 1 -> CommunityActivityScreen(
-                    activitiesViewModel = ActivitiesViewModel(),
-                    onActivityClick = { activity -> navController.navigate("communityDetails/${activity.id}") }
+                    activitiesViewModel = activitiesViewModel,
+                    onActivityClick = { activity -> navController.navigate("communityDetails/${activity.id}") },
+                    tabsViewModel
                 )
             }
         }
@@ -83,7 +86,8 @@ fun PreviewActivityScreen() {
         Surface(modifier = Modifier.fillMaxSize()) {
             ActivityScreen(
                 navController = rememberNavController(),
-                tabsViewModel = TabsViewModel()
+                tabsViewModel = TabsViewModel(),
+                activitiesViewModel = viewModel()
             )
         }
     }

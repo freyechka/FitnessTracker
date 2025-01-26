@@ -14,15 +14,16 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fitnesstracker.navigation.BottomBarNavGraph
 import com.example.fitnesstracker.ui.theme.FitnessTrackerTheme
 import com.example.fitnesstracker.ui.widgets.BottomNavigationBar
+import com.example.fitnesstracker.viewmodel.ActivitiesViewModel
 
 @Composable
-fun HubScreen(internalNavController: NavController) {
+fun HubScreen(internalNavController: NavController, vm: ActivitiesViewModel) {
     val navController = rememberNavController()
     Scaffold(bottomBar = { BottomNavigationBar(viewModel(), navController)},
         topBar = {}
         ) {
         innerPadding ->
-        BottomBarNavGraph(navController = navController, internalNavController = internalNavController, innerPadding.onlyBottom())
+        BottomBarNavGraph(navController = navController, internalNavController = internalNavController, innerPadding.onlyBottom(), vm)
     }
 }
 
@@ -33,7 +34,7 @@ fun PreviewHubScreen() {
     FitnessTrackerTheme() {
         Surface(modifier = Modifier.fillMaxSize()) {
             HubScreen(
-                internalNavController = rememberNavController()
+                internalNavController = rememberNavController(), viewModel()
             )
         }
     }

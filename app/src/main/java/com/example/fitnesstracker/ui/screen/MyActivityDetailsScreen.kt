@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnesstracker.model.Activity
@@ -50,20 +51,20 @@ fun MyActivityDetailsScreen(activity: Activity, navController: NavController, ac
         Column(modifier = Modifier.padding(innerPadding)
             .padding(20.dp)) {
             Text(
-                text = activity.distance.toString() + " км",
+                text = calculateDistance(activity.startLatitude, activity.endLatitude, activity.startLongitude, activity.startLongitude).toString() + " км",
                 fontWeight = FontWeight(700),
                 fontSize = 24.sp
             )
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                text = activity.date,
+                text = getDate(activity.end),
                 fontWeight = FontWeight(400),
                 fontSize = 16.sp,
                 color = Color.Gray
             )
             Spacer(modifier = Modifier.height(15.dp))
             Text(
-                text = activity.duration,
+                text = calculateDuration(activity.end - activity.start),
                 fontWeight = FontWeight(700),
                 fontSize = 24.sp
             )
@@ -77,7 +78,7 @@ fun MyActivityDetailsScreen(activity: Activity, navController: NavController, ac
                     fontSize = 16.sp
                 )
                 Text(
-                    text = activity.start,
+                    text = calculateDuration(activity.start),
                     fontWeight = FontWeight(400),
                     fontSize = 16.sp,
                     color = Color.Gray
@@ -94,7 +95,7 @@ fun MyActivityDetailsScreen(activity: Activity, navController: NavController, ac
                     fontSize = 16.sp
                 )
                 Text(
-                    text = activity.end,
+                    text = calculateDuration(activity.end),
                     fontWeight = FontWeight(400),
                     fontSize = 16.sp,
                     color = Color.Gray
@@ -124,18 +125,19 @@ fun PreviewMyActivityDetailsScreen() {
         Surface(modifier = Modifier.fillMaxSize()) {
             MyActivityDetailsScreen(
                 activity = Activity(
-                    id = 1,
-                    distance = 14.32,
-                    duration = "5 часов",
-                    start = "14:39",
-                    end = "19:39",
-                    title = "Серфинг",
-                    date = "03.12.2024",
+                    id = 0,
+                    start = 10000000000,
+                    end = 99999999000,
+                    title = "choose",
                     isMine = true,
-                    author = "@boberkurwa",
+                    author = "get_author",
+                    startLatitude = 1.1,
+                    endLatitude = 2.2,
+                    startLongitude = 3.3,
+                    endLongitude = 4.4
                 ),
                 navController = rememberNavController(),
-                activitiesViewModel = ActivitiesViewModel()
+                activitiesViewModel = viewModel()
             )
         }
     }

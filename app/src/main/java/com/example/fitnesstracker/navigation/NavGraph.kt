@@ -30,7 +30,7 @@ sealed class Screen(val route: String) {
 }
 
 @Composable
-fun NavGraph() {
+fun NavGraph(vm: ActivitiesViewModel) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = Screen.Welcome.route) {
         composable(Screen.Welcome.route) {
@@ -43,19 +43,19 @@ fun NavGraph() {
             LoginScreen(navController, viewModel())
         }
         composable(Screen.Hub.route) {
-            HubScreen(navController)
+            HubScreen(navController, vm)
         }
         composable(Screen.ChangePassword.route) {
             ChangePasswordScreen(navController, viewModel())
         }
         composable(Screen.NewActivity.route) {
-            NewActivityScreen(navController, viewModel())
+            NewActivityScreen(navController, vm)
         }
         composable(Screen.MyDetails.route, arguments = listOf(navArgument("activityId") { type = NavType.IntType})
         ) {
             val activityId = it.arguments?.getInt("activityId")
-            val viewModel: ActivitiesViewModel = ActivitiesViewModel()
-            val activities = viewModel.myActivities.value ?: emptyList()
+            val viewModel: ActivitiesViewModel = vm
+            val activities = viewModel.listMyActivities.value ?: emptyList()
             val activityItem = activities
                 .filterIsInstance<ActivityListItem.ActivityItem>()
                 .firstOrNull { t -> t.activity.id == activityId }
@@ -66,8 +66,8 @@ fun NavGraph() {
         composable(Screen.CommunityDetails.route, arguments = listOf(navArgument("activityId") { type = NavType.IntType})
         ) {
             val activityId = it.arguments?.getInt("activityId")
-            val viewModel: ActivitiesViewModel = ActivitiesViewModel()
-            val activities = viewModel.communityActivities.value ?: emptyList()
+            val viewModel: ActivitiesViewModel = vm
+            val activities = viewModel.listActivities.value ?: emptyList()
             val activityItem = activities
                 .filterIsInstance<ActivityListItem.ActivityItem>()
                 .firstOrNull { t -> t.activity.id == activityId }

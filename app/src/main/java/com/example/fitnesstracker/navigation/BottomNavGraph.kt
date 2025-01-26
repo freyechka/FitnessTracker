@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.fitnesstracker.ui.screen.ActivityScreen
 import com.example.fitnesstracker.ui.screen.ProfileScreen
+import com.example.fitnesstracker.viewmodel.ActivitiesViewModel
 
 sealed class BottomBarScreen(
     var route: String,
@@ -34,14 +35,14 @@ sealed class BottomBarScreen(
 }
 
 @Composable
-fun BottomBarNavGraph(navController: NavHostController, internalNavController: NavController, padding: PaddingValues) {
+fun BottomBarNavGraph(navController: NavHostController, internalNavController: NavController, padding: PaddingValues, vm: ActivitiesViewModel) {
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.Activity.route,
         modifier = Modifier.padding(padding)
     ) {
        composable(route = BottomBarScreen.Activity.route) {
-           ActivityScreen(internalNavController, viewModel())
+           ActivityScreen(internalNavController, viewModel(), vm)
        }
         composable(route = BottomBarScreen.Profile.route) {
             ProfileScreen(internalNavController, viewModel())

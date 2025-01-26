@@ -21,14 +21,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fitnesstracker.model.Activity
+import com.example.fitnesstracker.ui.screen.calculateDistance
+import com.example.fitnesstracker.ui.screen.calculateDuration
+import com.example.fitnesstracker.ui.screen.getDate
 import com.example.fitnesstracker.ui.theme.FitnessTrackerTheme
 import com.example.fitnesstracker.ui.theme.Gray
 import com.example.fitnesstracker.ui.theme.Primary
 import com.example.fitnesstracker.ui.theme.White
+import com.example.fitnesstracker.viewmodel.TabsViewModel
 
 @Composable
-fun ActivityItem(activity: Activity, onItemClick: (Activity) -> Unit) {
+fun ActivityItem(activity: Activity, onItemClick: (Activity) -> Unit, viewModel: TabsViewModel) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -53,11 +58,11 @@ fun ActivityItem(activity: Activity, onItemClick: (Activity) -> Unit) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = activity.distance.toString() + " км",
+                    text = calculateDistance(activity.startLatitude, activity.endLatitude, activity.startLongitude, activity.startLongitude).toString() + " км",
                     fontWeight = FontWeight(700),
                     fontSize = 24.sp
                 )
-                if (!activity.isMine) {
+                if (viewModel.tabIndex == 1) {
                     Text(
                         text = activity.author,
                         fontWeight = FontWeight(400),
@@ -67,7 +72,7 @@ fun ActivityItem(activity: Activity, onItemClick: (Activity) -> Unit) {
                 }
             }
             Text(
-                text = activity.duration,
+                text = calculateDuration(activity.end - activity.start),
                 fontSize = 16.sp,
                 fontWeight = FontWeight(400)
             )
@@ -82,7 +87,7 @@ fun ActivityItem(activity: Activity, onItemClick: (Activity) -> Unit) {
                     fontWeight = FontWeight(400)
                 )
                 Text(
-                    text = activity.date,
+                    text = getDate(activity.end),
                     fontSize = 16.sp,
                     fontWeight = FontWeight(400),
                     color = Gray
@@ -99,17 +104,19 @@ fun PreviewActivityItem() {
         Surface(modifier = Modifier.fillMaxSize()) {
             ActivityItem(
                 Activity(
-                    id = 1,
-                    distance = 14.32,
-                    duration = "5 часов",
-                    start = "14:39",
-                    end = "19:39",
-                    title = "Серфинг",
-                    date = "03.12.2024",
+                    id = 0,
+                    start = 10000000000,
+                    end = 99999999000,
+                    title = "choose",
                     isMine = true,
-                    author = "@boberkurwa"
+                    author = "get_author",
+                    startLatitude = 1.1,
+                    endLatitude = 2.2,
+                    startLongitude = 3.3,
+                    endLongitude = 4.4
                 ),
-                onItemClick = {}
+                onItemClick = {},
+                viewModel = viewModel()
             )
         }
     }
